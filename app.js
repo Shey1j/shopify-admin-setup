@@ -204,8 +204,13 @@ const toggleSetupDropdown = () => {
   const toggleSetupMenu = () => {
     const isExpanded =
       accordionToggleButton.attributes["aria-expanded"].value === "true";
-    setupAccordionWrapper.classList.toggle("active");
+    setupAccordionWrapper.classList.toggle("show");
     toggleMenu(isExpanded, closeSetupMenu, openSetupMenu);
+    if (isExpanded) {
+      accordionToggleButton.ariaLabel = "open setup guide";
+    } else {
+      accordionToggleButton.ariaLabel = "close setup guide";
+    }
   };
 
   accordionToggleButton.addEventListener("click", toggleSetupMenu);

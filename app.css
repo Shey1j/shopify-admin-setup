@@ -587,32 +587,24 @@ input {
 }
 
 .guide-dropdown__section .accordion-icon button img {
-  height: 1.25rem;
   width: 1.25rem;
+  height: 1.25rem;
+  transform: rotate(0deg);
+  transition: transform 0.25s linear;
 }
 
-.guide-dropdown__section .accordion-icon button img#close-accordion {
-  display: none;
+.guide-dropdown__section .setup-accordion.show .accordion-icon button img {
+  transform: rotate(180deg);
+  transition: transform 0.25s linear;
 }
 
-.guide-dropdown__section .accordion-icon button img#open-accordion {
-  display: block;
-}
-
-.guide-dropdown__section .setup-accordion.show .accordion-icon button img#open-accordion {
-  display: none;
-}
-
-.guide-dropdown__section .setup-accordion.show .accordion-icon button img#close-accordion {
-  display: block;
-}
 .guide-dropdown__section .setup-accordion .accordion-body__wrapper {
   height: 0;
   opacity: 0;
   visibility: hidden;
 }
 
-.guide-dropdown__section .setup-accordion.active .accordion-body__wrapper {
+.guide-dropdown__section .setup-accordion.show .accordion-body__wrapper {
   margin-top: 1rem;
   height: fit-content;
   opacity: 1;

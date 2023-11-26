@@ -323,7 +323,7 @@
           </div>
         </div>
         <div class="guide-dropdown__section">
-          <div class="setup-accordion active" id="setup-accordion">
+          <div class="setup-accordion show" id="setup-accordion">
             <div class="accordion-header">
               <div class="accordion-header__content">
                 <h2>Setup guide</h2>
@@ -340,18 +340,14 @@
                   id="toggle-btn"
                   class="toggle-btn"
                   aria-controls="accordion-dropdown"
-                  aria-expanded="false"
+                  aria-expanded="true"
+                  aria-label="close setup guide"
                   tabindex="0"
                 >
                   <img
-                    id="open-accordion"
+                    aria-hidden="true"
                     src="https://crushingit.tech/hackathon-assets/icon-arrow-down.svg"
-                    alt="open setup dropdown"
-                  />
-                  <img
-                    id="close-accordion"
-                    src="https://crushingit.tech/hackathon-assets/icon-arrow-up.svg"
-                    alt="close setup dropdown"
+                    alt="toggle setup dropdown"
                   />
                 </button>
               </div>
