@@ -122,7 +122,7 @@ const profileNav = () => {
 
   const toggleProfileMenu = () => {
     const isExpanded = profileButton.attributes['aria-expanded'].value === 'true';
-    profileDropdown.classList.toggle('active');
+    profileDropdown.classList.toggle('profile-active');
     toggleMenu(isExpanded, closeProfileMenu, openProfileMenu);
   }
 
