@@ -206,6 +206,7 @@ const toggleSetupDropdown = () => {
       accordionToggleButton.attributes["aria-expanded"].value === "true";
     setupAccordionWrapper.classList.toggle("show");
     toggleMenu(isExpanded, closeSetupMenu, openSetupMenu);
+
     if (isExpanded) {
       accordionToggleButton.ariaLabel = "open setup guide";
     } else {
@@ -230,7 +231,7 @@ const openAccordionandToggleSetupCheckBoxes = () => {
   let activeIndex = 0;
 
   const replaceAriaLabel = (checkbox) => {
-    checkbox.ariaLabel.replace("Mark", "marked");
+    return checkbox.ariaLabel.replace("Mark", "marked");
   };
 
   const markCheckboxAsComplete = (
@@ -414,7 +415,7 @@ const openAccordionandToggleSetupCheckBoxes = () => {
     }
   }
 
-  //Sets the configuration for the observation of an Target (Looking for attributes, childs and cd)
+  //Sets the configuration for the observation of a target (Looking for attributes, childList and characterData)
   const config = { attributes: true, childList: true, characterData: true };
 
   // adding the observer to every target with the class
