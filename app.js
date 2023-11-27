@@ -4,16 +4,27 @@ const checkboxHiddenClass = "hidden";
 const markedCompleteClass = "checked";
 const accordionActiveClass = "active";
 
+// REUSED VALUES
+const clickEvent = "click";
+const keyUpEvent = "keyup";
+const rightArrowKey = "ArrowRight";
+const leftArrowKey = "ArrowLeft";
+const upArrowKey = "ArrowUp";
+const downArrowKey = "ArrowDown";
+const ariaExpandedAttr = "aria-expanded";
+const ariaSelectedAttr = "aria-selected";
+
 // REUSABLE FUNCTIONS
+
 // ARROW KEY PRESS FOR DROPDOWNS
-const handleArrowKeyPress = (event, itemIndex, menuItems) => {
+function handleArrowKeyPress (event, itemIndex, menuItems) {
   const isLastMenuItem = itemIndex === menuItems.length - 1;
   const isFirstMenuItem = itemIndex === 0;
 
   const nextMenuItem = menuItems.item(itemIndex + 1);
   const previousMenuItem = menuItems.item(itemIndex - 1);
 
-  if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+  if (event.key === rightArrowKey || event.key === downArrowKey) {
     if (isLastMenuItem) {
       menuItems.item(0).focus();
       return;
@@ -21,7 +32,7 @@ const handleArrowKeyPress = (event, itemIndex, menuItems) => {
     nextMenuItem.focus();
   }
 
-  if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+  if (event.key === upArrowKey || event.key === leftArrowKey) {
     if (isFirstMenuItem) {
       menuItems.item(menuItems.length - 1).focus();
       return;
@@ -32,40 +43,40 @@ const handleArrowKeyPress = (event, itemIndex, menuItems) => {
 };
 
 // ESCAPE KEY PRESS FOR DROPDOWNS
-const handleEscapeKeyPress = (event, callback) => {
+function handleEscapeKeyPress (event, callback) {
   if (event.key === "Escape") {
     callback();
   }
 };
 
 // OPEN MENU
-const openMenu = (
+function openMenu (
   menuBtn,
   menuDropdown,
   menuItems,
   escapeKeyCallback,
   arrowKeyCallback
-) => {
+) {
   menuBtn.ariaExpanded = true;
   menuItems.item(0).focus();
 
-  menuDropdown.addEventListener("keyup", escapeKeyCallback);
+  menuDropdown.addEventListener(keyUpEvent, escapeKeyCallback);
 
   menuItems.forEach((menuItem, menuItemIndex) => {
-    menuItem.addEventListener("keyup", (event) => {
+    menuItem.addEventListener(keyUpEvent, (event) => {
       arrowKeyCallback(event, menuItemIndex);
     });
   });
 };
 
 // CLOSE MENU
-const closeMenu = (menuBtn) => {
+function closeMenu (menuBtn) {
   menuBtn.ariaExpanded = false;
   menuBtn.focus();
 };
 
 // TOGGLE MENU
-const toggleMenu = (isExpanded, closeCallback, openCallback) => {
+function toggleMenu (isExpanded, closeCallback, openCallback) {
   if (isExpanded) {
     closeCallback();
   } else {
@@ -82,7 +93,7 @@ const profileDropdown = document.getElementById("profile-dropdown");
 const profileMenuItems = document.querySelectorAll(".profile-menuitem");
 
 // TOGGLE NOTIFICATIONS DISPLAY
-const notificationNav = () => {
+function notificationNav () {
   const closeNotificationMenu = () => {
     closeMenu(notificationButton);
   };
@@ -107,16 +118,16 @@ const notificationNav = () => {
 
   const toggleNotificationMenu = () => {
     const isExpanded =
-      notificationButton.attributes["aria-expanded"].value === "true";
+      notificationButton.attributes[ariaExpandedAttr].value === "true";
     notificationDropdown.classList.toggle("notification-active");
     toggleMenu(isExpanded, closeNotificationMenu, openNotificationMenu);
   };
 
-  notificationButton.addEventListener("click", toggleNotificationMenu);
+  notificationButton.addEventListener(clickEvent, toggleNotificationMenu);
 };
 
 // TOGGLE NAVIGATION DISPLAY
-const profileNav = () => {
+function profileNav () {
   const closeProfileMenu = () => {
     closeMenu(profileButton);
   };
@@ -141,12 +152,12 @@ const profileNav = () => {
 
   const toggleProfileMenu = () => {
     const isExpanded =
-      profileButton.attributes["aria-expanded"].value === "true";
+      profileButton.attributes[ariaExpandedAttr].value === "true";
     profileDropdown.classList.toggle("profile-active");
     toggleMenu(isExpanded, closeProfileMenu, openProfileMenu);
   };
 
-  profileButton.addEventListener("click", toggleProfileMenu);
+  profileButton.addEventListener(clickEvent, toggleProfileMenu);
 };
 
 // MAIN CONTENT
@@ -155,7 +166,8 @@ const alertCloseButton = document.querySelector(".alert-close__btn");
 const accordionItems = document.querySelectorAll(".accordion-item");
 
 // DISMISS CALLOUT ALERT
-const setAlertDisplayToNone = () => {
+
+function setAlertDisplayToNone () {
   alertContainer.classList.add(alertContainerClass);
   setTimeout(() => {
     alertContainer.style.display = "none";
@@ -163,19 +175,13 @@ const setAlertDisplayToNone = () => {
   }, 1000);
 };
 
-const closeTrialAlert = () => {
-  alertCloseButton.addEventListener("click", setAlertDisplayToNone);
-
-  alertCloseButton.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      setAlertDisplayToNone();
-    }
-  });
+function closeTrialAlert () {
+  alertCloseButton.addEventListener(clickEvent, setAlertDisplayToNone);
 };
 
 // TOGGLE SETUP ITEMS DISPLAY
 
-const toggleSetupDropdown = () => {
+function toggleSetupDropdown () {
   const setupAccordionWrapper = document.querySelector("#setup-accordion");
   const accordionToggleButton = document.querySelector("#toggle-btn");
 
@@ -203,7 +209,7 @@ const toggleSetupDropdown = () => {
 
   const toggleSetupMenu = () => {
     const isExpanded =
-      accordionToggleButton.attributes["aria-expanded"].value === "true";
+      accordionToggleButton.attributes[ariaExpandedAttr].value === "true";
     setupAccordionWrapper.classList.toggle("show");
     toggleMenu(isExpanded, closeSetupMenu, openSetupMenu);
 
@@ -214,12 +220,12 @@ const toggleSetupDropdown = () => {
     }
   };
 
-  accordionToggleButton.addEventListener("click", toggleSetupMenu);
+  accordionToggleButton.addEventListener(clickEvent, toggleSetupMenu);
 };
 
 // TOGGLE SETUP GUIDE CHECKBOXES
 
-const openAccordionandToggleSetupCheckBoxes = () => {
+function openAccordionandToggleSetupCheckBoxes () {
   const accordionItemTitles = document.querySelectorAll(
     ".accordion-item__title"
   );
@@ -311,26 +317,22 @@ const openAccordionandToggleSetupCheckBoxes = () => {
 
   checkboxItems.forEach((checkbox) => {
     // CLICK EVENT
-    checkbox.addEventListener("click", () => {
+    checkbox.addEventListener(clickEvent, () => {
       toggleCompleteCheckbox(checkbox);
     });
   });
 
   const setTabIndexForInnerItems = (itemIndex) => {
     for (let i = 0; i < accordionItemTitles.length; i++) {
+      const items = accordionItems[i].querySelectorAll(".item-content__action");
+
       if (i === itemIndex) {
         // set tab index for inner elements
-        const items = accordionItems[i].querySelectorAll(
-          ".item-content__action"
-        );
         items.forEach((item) => {
           item.tabIndex = "0";
         });
       } else {
         // set tab index for inner elements
-        const items = accordionItems[i].querySelectorAll(
-          ".item-content__action"
-        );
         items.forEach((item) => {
           item.tabIndex = "-1";
         });
@@ -338,55 +340,55 @@ const openAccordionandToggleSetupCheckBoxes = () => {
     }
   };
 
-  function setActivePanel(index) {
+  const setActivePanel = (index) => {
     // Hide currently active panel
     accordionItems[activeIndex].classList.remove(accordionActiveClass);
-    panelElements[activeIndex].tabIndex = -1;
+    panelElements[activeIndex].ariaHidden = true;
     // Show new active panel
     accordionItems[index].classList.add(accordionActiveClass);
-    panelElements[index].tabIndex = 0;
+    panelElements[index].ariaHidden = false;
     accordionItemTitles[index].focus();
     setTabIndexForInnerItems(index);
   }
 
-  function setActiveTab(index) {
+  const setActiveTab = (index) => {
     // Make currently active tab inactive
-    tabElements[activeIndex].setAttribute("aria-selected", "false");
+    tabElements[activeIndex].setAttribute(ariaSelectedAttr, "false");
 
     // Set the new tab as active
-    tabElements[index].setAttribute("aria-selected", "true");
+    tabElements[index].setAttribute(ariaSelectedAttr, "true");
 
     setActivePanel(index);
     activeIndex = index;
   }
 
   tabElements.forEach((tab, index) => {
-    tab.addEventListener("click", () => {
+    tab.addEventListener(clickEvent, () => {
       setActiveTab(index);
     });
 
     // KEY PRESS
-    tab.addEventListener("keydown", (event) => {
+    tab.addEventListener(keyUpEvent, (event) => {
       const lastIndex = tabElements.length - 1;
 
-      if (event.code === "ArrowLeft" || event.code === "ArrowUp") {
+      if (event.key === leftArrowKey || event.key === upArrowKey) {
         event.preventDefault();
 
         if (activeIndex === 0) {
-          // First element, jump to end
+          // First element, jump to last element
           setActiveTab(lastIndex);
         } else {
-          // Move left
+          // Move left (move to element before)
           setActiveTab(activeIndex - 1);
         }
-      } else if (event.code === "ArrowRight" || event.code === "ArrowDown") {
+      } else if (event.key === rightArrowKey || event.key === downArrowKey) {
         event.preventDefault();
 
         if (activeIndex === lastIndex) {
-          // Last element, jump to beginning
+          // Last element, jump to first element
           setActiveTab(0);
         } else {
-          // Move right
+          // Move right (move to element after)
           setActiveTab(activeIndex + 1);
         }
       }
@@ -397,16 +399,18 @@ const openAccordionandToggleSetupCheckBoxes = () => {
   const observer = new MutationObserver(callback);
 
   // Creates the callback function for the observer
-  function callback() {
+  function callback () {
     const progressBarContainer = document.querySelector(".setup-progress__bar");
     const completedCheck = document.querySelectorAll(".setup-checkbox.checked");
     const allChecks = document.querySelectorAll(".setup-checkbox");
     const progressLabel = progressBarContainer.getElementsByTagName("label")[0];
     const progressBar = document.getElementById("setup-progress");
 
+    // Update progress count and percentage
     progressLabel.innerText = `${completedCheck.length}/5 completed`;
     progressBar.value = `${(completedCheck.length / 5) * 100}`;
 
+    // Set next incomplete element to active
     for (let index = 0; index < allChecks.length; index++) {
       if (!allChecks[index].classList.contains("checked")) {
         setActiveTab(index);
