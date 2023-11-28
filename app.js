@@ -3,6 +3,8 @@ const alertContainerClass = "closing";
 const checkboxHiddenClass = "hidden";
 const markedCompleteClass = "checked";
 const accordionActiveClass = "active";
+const profileDropdownActiveClass = "profile-active";
+const notificationDropdownActiveClass = "notification-active";
 
 // REUSED VALUES
 const clickEvent = "click";
@@ -119,7 +121,10 @@ function notificationNav () {
   const toggleNotificationMenu = () => {
     const isExpanded =
       notificationButton.attributes[ariaExpandedAttr].value === "true";
-    notificationDropdown.classList.toggle("notification-active");
+    notificationDropdown.classList.toggle(notificationDropdownActiveClass);
+    if (profileDropdown.classList.contains(profileDropdownActiveClass)) {
+      profileDropdown.classList.remove(profileDropdownActiveClass);
+    };
     toggleMenu(isExpanded, closeNotificationMenu, openNotificationMenu);
   };
 
@@ -153,7 +158,10 @@ function profileNav () {
   const toggleProfileMenu = () => {
     const isExpanded =
       profileButton.attributes[ariaExpandedAttr].value === "true";
-    profileDropdown.classList.toggle("profile-active");
+    profileDropdown.classList.toggle(profileDropdownActiveClass);
+    if (notificationDropdown.classList.contains(notificationDropdownActiveClass)) {
+      notificationDropdown.classList.remove(notificationDropdownActiveClass);
+    };
     toggleMenu(isExpanded, closeProfileMenu, openProfileMenu);
   };
 
