@@ -154,7 +154,7 @@ header {
 
 .shopify-header__wrapper {
   display: grid;
-  grid-template-columns: 10% 65% 20%;
+  grid-template-columns: 2rem calc(100vw - 9.5rem) 4.5rem;
   align-items: center;
   gap: 8px;
 }
@@ -780,6 +780,9 @@ input {
 }
 
 @media screen and (min-width: 820px) {
+  .shopify-header__wrapper {
+    grid-template-columns: calc((100% - 30rem) / 2) 30rem calc((100% - 30rem) / 2);
+  }
   /* BODY */
   .shopify-body__wrapper {
     max-width: 800px;

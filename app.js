@@ -407,7 +407,7 @@ function openAccordionandToggleSetupCheckBoxes () {
     const progressBar = document.getElementById("setup-progress");
 
     // Update progress count and percentage
-    progressLabel.innerText = `${completedCheck.length}/5 completed`;
+    progressLabel.innerText = `${completedCheck.length} / 5 completed`;
     progressBar.value = `${(completedCheck.length / 5) * 100}`;
 
     // Set next incomplete element to active
