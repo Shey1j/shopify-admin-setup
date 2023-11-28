@@ -328,7 +328,7 @@
           </div>
         </div>
         <div class="guide-dropdown__section">
-          <div class="setup-accordion show" id="setup-accordion">
+          <div class="setup-accordion" id="setup-accordion">
             <div class="accordion-header">
               <div class="accordion-header__content">
                 <h2>Setup guide</h2>
@@ -345,8 +345,8 @@
                   id="toggle-btn"
                   class="toggle-btn"
                   aria-controls="accordion-dropdown"
-                  aria-expanded="true"
-                  aria-label="close setup guide"
+                  aria-expanded="false"
+                  aria-label="open setup guide"
                   tabindex="0"
                 >
                   <img
@@ -454,13 +454,13 @@
                           to reflect your brand.
                           <a
                             href="https://help.shopify.com/en/manual/online-store/themes/customizing-themes"
-                            tabindex="0"
+                            tabindex="-1"
                             class="item-content__action"
                             aria-label="Click to learn more on how to customize your online store"
                             >Learn more</a
                           >
                         </p>
-                        <button tabindex="0" class="item-content__action">
+                        <button tabindex="-1" class="item-content__action">
                           Customize theme
                         </button>
                       </div>

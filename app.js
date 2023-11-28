@@ -164,6 +164,28 @@ function profileNav () {
 const alertContainer = document.querySelector(".callout-alert");
 const alertCloseButton = document.querySelector(".alert-close__btn");
 const accordionItems = document.querySelectorAll(".accordion-item");
+const checkboxItems = document.querySelectorAll(".setup-checkbox");
+const accordionItemTitles = document.querySelectorAll(
+  ".accordion-item__title"
+);
+
+const setTabIndexForInnerItems = (itemIndex) => {
+  for (let i = 0; i < accordionItemTitles.length; i++) {
+    const items = accordionItems[i].querySelectorAll(".item-content__action");
+
+    if (i === itemIndex) {
+      // set tab index for inner elements
+      items.forEach((item) => {
+        item.tabIndex = "0";
+      });
+    } else {
+      // set tab index for inner elements
+      items.forEach((item) => {
+        item.tabIndex = "-1";
+      });
+    }
+  }
+};
 
 // DISMISS CALLOUT ALERT
 
@@ -221,17 +243,38 @@ function toggleSetupDropdown () {
   };
 
   accordionToggleButton.addEventListener(clickEvent, toggleSetupMenu);
+
+  // observe Toggle button aria-expanded attribute
+  const observer = new MutationObserver(callback);
+
+  // Creates the callback function for the observer
+  function callback () {
+    const accordionOpenedButton = document.querySelector("#toggle-btn[aria-expanded='true']");
+    // set tab index for elements within active tab when accordion is open
+    if (accordionOpenedButton) {
+      accordionItems.forEach((item, index) => {
+        if (item.classList.contains('active')) {
+          setTabIndexForInnerItems(index);
+          setTimeout(() => {
+            checkboxItems.item(index).focus();
+          }, 100);
+        };
+      });
+    };
+  };
+
+  //Sets the configuration for the observation of a target (Looking for attributes, childList and characterData)
+  const config = { attributes: true, childList: true, characterData: true };
+
+  // adding the observer to the target with the class
+  observer.observe(accordionToggleButton, config);
 };
 
 // TOGGLE SETUP GUIDE CHECKBOXES
 
 function openAccordionandToggleSetupCheckBoxes () {
-  const accordionItemTitles = document.querySelectorAll(
-    ".accordion-item__title"
-  );
   const tabElements = document.querySelectorAll('button[role="tab"]');
   const panelElements = document.querySelectorAll('[role="tabpanel"]');
-  const checkboxItems = document.querySelectorAll(".setup-checkbox");
   const checkboxMarkStatus = document.getElementById("checkbox-items-status");
   const loadingLabel = "Loading. Please wait...";
   let activeIndex = 0;
@@ -321,24 +364,6 @@ function openAccordionandToggleSetupCheckBoxes () {
       toggleCompleteCheckbox(checkbox);
     });
   });
-
-  const setTabIndexForInnerItems = (itemIndex) => {
-    for (let i = 0; i < accordionItemTitles.length; i++) {
-      const items = accordionItems[i].querySelectorAll(".item-content__action");
-
-      if (i === itemIndex) {
-        // set tab index for inner elements
-        items.forEach((item) => {
-          item.tabIndex = "0";
-        });
-      } else {
-        // set tab index for inner elements
-        items.forEach((item) => {
-          item.tabIndex = "-1";
-        });
-      }
-    }
-  };
 
   const setActivePanel = (index) => {
     // Hide currently active panel
